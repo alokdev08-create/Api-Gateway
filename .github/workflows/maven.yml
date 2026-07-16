@@ -1,28 +1,37 @@
+# Name of the GitHub Actions workflow
 name: Spring Boot CI
 
+# Trigger workflow when code is pushed to main branch
 on:
   push:
     branches:
       - main
 
+# Jobs are units of work in this workflow
 jobs:
   build:
 
+    # GitHub will run this job on latest Ubuntu Linux machine
     runs-on: ubuntu-latest
 
+    # Steps run one by one
     steps:
 
+      # Step 1: Download repository code into runner machine
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Step 2: Install Java 17 using Temurin JDK
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
+      # Step 3: Give execute permission to Maven wrapper file
       - name: Give Execute Permission
         run: chmod +x mvnw
 
+      # Step 4: Clean, compile, test, package and install project
       - name: Build Project
         run: ./mvnw clean install
